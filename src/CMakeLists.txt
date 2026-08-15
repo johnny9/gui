@@ -405,6 +405,9 @@ endif()
 
 if(BUILD_GUI)
   add_subdirectory(qt)
+  if(BUILD_GUI_QML)
+    add_subdirectory(qml)
+  endif()
 endif()
 
 
