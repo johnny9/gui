@@ -30,6 +30,8 @@ function(create_test_config)
   set_configure_variable(WITH_USDT ENABLE_USDT_TRACEPOINTS)
   set_configure_variable(ENABLE_IPC ENABLE_IPC)
   set_configure_variable(BUILD_GUI BUILD_GUI)
+  set_configure_variable(BUILD_GUI_QML BUILD_GUI_QML)
+  set_configure_variable(ENABLE_TEST_AUTOMATION ENABLE_TEST_AUTOMATION)
 
   configure_file(config.ini.in config.ini USE_SOURCE_PERMISSIONS @ONLY)
 endfunction()
