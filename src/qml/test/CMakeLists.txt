@@ -7,6 +7,10 @@ add_executable(bitcoinqml_unit_tests
   test_unit_tests_main.cpp
 )
 
+if(ENABLE_TEST_AUTOMATION)
+  target_sources(bitcoinqml_unit_tests PRIVATE test_testbridge.cpp)
+endif()
+
 target_link_libraries(bitcoinqml_unit_tests
   PRIVATE
     bitcoinqml

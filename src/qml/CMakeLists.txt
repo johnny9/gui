@@ -26,6 +26,16 @@ target_compile_definitions(bitcoinqml
     QT_USE_QSTRINGBUILDER
 )
 
+if(ENABLE_TEST_AUTOMATION)
+  target_sources(bitcoinqml
+    PRIVATE
+      test/testbridge.cpp
+      test/testbridge.h
+  )
+  target_compile_definitions(bitcoinqml PRIVATE ENABLE_TEST_AUTOMATION)
+  target_link_libraries(bitcoinqml PUBLIC Qt6::Network)
+endif()
+
 target_link_libraries(bitcoinqml
   PUBLIC
     Qt6::Qml
