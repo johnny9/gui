@@ -17,12 +17,17 @@ unset(warn_flags)
 add_library(bitcoinqml STATIC
   bitcoin.cpp
   bitcoin.h
+  initexecutor.cpp
+  initexecutor.h
+  models/nodemodel.cpp
+  models/nodemodel.h
   ${BITCOIN_QML_QRC}
 )
 
 target_compile_definitions(bitcoinqml
   PUBLIC
     QT_NO_KEYWORDS
+    QT_NO_CONTEXTLESS_CONNECT
     QT_USE_QSTRINGBUILDER
 )
 
@@ -37,19 +42,31 @@ if(ENABLE_TEST_AUTOMATION)
 endif()
 
 target_link_libraries(bitcoinqml
+  PRIVATE
+    bitcoin_node
   PUBLIC
     Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
 )
 
-add_executable(bitcoin-qml WIN32 main.cpp)
+add_executable(bitcoin-qml WIN32
+  main.cpp
+  ../init/bitcoin-qt.cpp
+)
 add_windows_application_manifest(bitcoin-qml)
+
+target_compile_definitions(bitcoin-qml
+  PRIVATE
+    BITCOIN_GUI_EXECUTABLE_NAME="bitcoin-qml"
+)
 
 target_link_libraries(bitcoin-qml
   PRIVATE
     core_interface
     bitcoinqml
+    bitcoin_node
+    $<TARGET_NAME_IF_EXISTS:bitcoin_wallet>
 )
 
 qt6_import_qml_plugins(bitcoin-qml)

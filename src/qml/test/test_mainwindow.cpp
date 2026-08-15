@@ -6,6 +6,7 @@
 
 #include <QScopedPointer>
 #include <QQmlComponent>
+#include <QQmlContext>
 #include <QQmlEngine>
 #include <QTest>
 #include <QUrl>
@@ -18,12 +19,14 @@ private Q_SLOTS:
     void loadsFromResources()
     {
         QQmlEngine engine;
+        engine.rootContext()->setContextProperty(QStringLiteral("nodeModel"), static_cast<QObject*>(nullptr));
         QQmlComponent component{&engine, QUrl{QStringLiteral("qrc:///qml/pages/MainWindow.qml")}};
         QScopedPointer<QObject> window{component.create()};
 
         QVERIFY2(window, qPrintable(component.errorString()));
         QCOMPARE(window->objectName(), QStringLiteral("mainWindow"));
         QCOMPARE(window->property("title").toString(), QStringLiteral("Bitcoin Core"));
+        QCOMPARE(window->property("nodeStatus").toString(), QStringLiteral("Not connected"));
     }
 };
 
