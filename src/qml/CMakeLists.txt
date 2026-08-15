@@ -45,3 +45,7 @@ target_link_libraries(bitcoin-qml
 qt6_import_qml_plugins(bitcoin-qml)
 import_plugins(bitcoin-qml)
 install_binary_component(bitcoin-qml)
+
+if(BUILD_GUI_QML_TESTS)
+  add_subdirectory(test)
+endif()
